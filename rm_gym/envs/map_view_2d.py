@@ -27,6 +27,9 @@ class MapView2D:
                 self.update()
 
     def update(self, robot1Pos=[30,30], robot2Pos=[700,30], robot3Pos=[30,400], robot4Pos=[700,400]):
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                exit()
         # 绘制背景
         self.screen.blit(self.background, (0, 0))
         # 绘制小车
