@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
 DEADLY_COST = 255
 INFLATION_COST = 1
@@ -159,6 +160,22 @@ class Map(object):
         elif x>350 and x<450 and y>400 and y<500:
             return 2
         return 0
+
+    def line_collision(self, x1, y1, x2, y2, step=5):
+        """
+        detect if collision will happen between two point(used when STEP_SIZE=1!!!)
+        :return: bool
+        """
+        theta = math.atan2(y2-y1, x2-x1)
+        length = math.sqrt((x1-x2)**2+(y1-y2)**2)
+        for i in range(int(length/step)):
+            new_x = x1+step*i*math.cos(theta)
+            new_y = y1+step*i*math.sin(theta)
+            if self.has_collision(new_x, new_y):
+                return True
+        return False
+
+
 
 if __name__ == '__main__':
     map = Map()
