@@ -2,6 +2,10 @@
 The Map Class
 """
 import numpy as np
+import matplotlib.pyplot as plt
+
+DEADLY_COST = 255
+NEED_DRAW = False
 
 class Map(object):
     def __init__(self, MAP_WIDTH=800, MAP_HEIGHT=500, STEP_SIZE=10, INFLATION_RADIUS=42):
@@ -13,10 +17,9 @@ class Map(object):
         self._grid_height = int(self._height/self._step_size)
         self._grid_inflation_radius = int(self._inflation_radius/self._step_size)
         self._grid = np.zeros((self._grid_width, self._grid_height))
-        # self._obstacle_list = [[120,140,325,350,450,580,635],[700,240,100,262.5,800,125,660],
-        # [220,165,350,450,475,680,660],[675,140,0,237.5,700,100,560]]              #记录障碍物的左上角坐标和右下角坐标（左、上、右、下）
-        self._obstacle_list = [[120,700,220,675],[140,240,165,140],[325,100,350,0],
-                               [350,262.5,450,237.5],[450,800,475,700],[580,125,680,100],[635,660,660,560]]
+        self._obstacle_list = [[120,400,220,375],[140,240,165,140],[325,100,350,0],
+                               [350,262.5,450,237.5],[450,500,475,400],[580,125,680,100],
+                               [635,360,660,260]]  # 记录障碍物的左上角坐标和右下角坐标（左、上、右、下）
         self.init_grid()
 
     def init_grid(self):
@@ -26,8 +29,18 @@ class Map(object):
         """
         for obs in self._obstacle_list:
             self._grid[int(obs[0]/self._step_size):int(obs[2]/self._step_size)+1,
-            int(obs[1]/self._step_size):int(obs[3]/self._step_size)+1] = 255
-        print(self._grid)
+            int(obs[3]/self._step_size):int(obs[1]/self._step_size)+1] = DEADLY_COST
+
+        if NEED_DRAW:
+            for i in range(self._grid_width):
+                plt.scatter(i,0)
+                plt.scatter(i,self._grid_height)
+                for j in range(self._grid_height):
+                    plt.scatter(0,j)
+                    plt.scatter(self._grid_width,j)
+                    if self._grid[i, j] != 0:
+                        plt.scatter(i,j)
+            plt.show()
         return self._grid
 
     def inside_border(self, pos):
