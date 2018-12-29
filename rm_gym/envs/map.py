@@ -120,6 +120,23 @@ class Map(object):
             return False
         return True
 
+    def start_region(self, x, y):
+        """
+        judge if you are in a start region
+        :return: region number
+        0---no region, 1---red1, 2---red2, 3---blue1, 4---blue2
+        """
+        if x>0 and x<100 and y>0 and y<100:
+            return 1
+        elif x>700 and x<800 and y>0 and y<100:
+            return 2
+        elif x>0 and x<100 and y>400 and y<500:
+            return 3
+        elif x>700 and x<800 and y>400 and y<500:
+            return 4
+        return 0
+
+
 
 if __name__ == '__main__':
     map = Map()
@@ -130,4 +147,3 @@ if __name__ == '__main__':
             print("Collision!!!")
         else:
             print("No Collision.")
-
