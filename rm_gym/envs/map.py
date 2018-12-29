@@ -13,7 +13,10 @@ class Map(object):
         self._grid_height = int(self._height/self._step_size)
         self._grid_inflation_radius = int(self._inflation_radius/self._step_size)
         self._grid = np.zeros((self._grid_width, self._grid_height))
-        self._obstacle_list = [[120,140,325,350,450,580,635],[700,240,100,262.5,800,125,660],[220,165,350,450,475,680,660],[675,140,0,237.5,700,100,560]]              #记录障碍物的左上角坐标和右下角坐标（左、上、右、下）
+        # self._obstacle_list = [[120,140,325,350,450,580,635],[700,240,100,262.5,800,125,660],
+        # [220,165,350,450,475,680,660],[675,140,0,237.5,700,100,560]]              #记录障碍物的左上角坐标和右下角坐标（左、上、右、下）
+        self._obstacle_list = [[120,700,220,675],[140,240,165,140],[325,100,350,0],
+                               [350,262.5,450,237.5],[450,800,475,700],[580,125,680,100],[635,660,660,560]]
         self.init_grid()
 
     def init_grid(self):
@@ -21,6 +24,10 @@ class Map(object):
         initialize the grid
         :return: grid
         """
+        for obs in self._obstacle_list:
+            self._grid[int(obs[0]/self._step_size):int(obs[2]/self._step_size)+1,
+            int(obs[1]/self._step_size):int(obs[3]/self._step_size)+1] = 255
+        print(self._grid)
         return self._grid
 
     def inside_border(self, pos):
