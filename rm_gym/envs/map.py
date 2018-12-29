@@ -136,6 +136,17 @@ class Map(object):
             return 4
         return 0
 
+    def buff_region(self, x, y):
+        """
+        judge which buff region you are in
+        :return: region number
+        0---no region, 1---defence buff, 2---attack buff
+        """
+        if x>120 and x<220 and y>275 and y<375:
+            return 1
+        elif x>580 and x<680 and y>125 and y<225:
+            return 2
+        return 0
 
 
 if __name__ == '__main__':
