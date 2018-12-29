@@ -148,6 +148,17 @@ class Map(object):
             return 2
         return 0
 
+    def supply_region(self, x, y):
+        """
+        judge which supply region you are in
+        :return: region number
+        0---no region, 1---blue supply region, 2---red supply region
+        """
+        if x>350 and x<450 and y>0 and y<100:
+            return 1
+        elif x>350 and x<450 and y>400 and y<500:
+            return 2
+        return 0
 
 if __name__ == '__main__':
     map = Map()
