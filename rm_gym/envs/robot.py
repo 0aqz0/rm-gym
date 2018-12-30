@@ -1,7 +1,7 @@
 import numpy as np
 import math
 
-INITIAL_POSITION = [30, 30]       # initial x, y coordinates of the robot
+# INITIAL_POSITION = [30, 30]       # initial x, y coordinates of the robot
 INITIAL_DIR = 0                   # initial dir of the robot, range in [0, 2*pi]
 INITIAL_STATE = None              # initial state of the robot
 INITIAL_BULLET = 40               # initial bullets of the robot
@@ -17,7 +17,7 @@ SLEEP_TIME = 0.1
 
 
 class Robot:
-    def __init__(self, pos=INITIAL_POSITION, dir=INITIAL_DIR, state=INITIAL_STATE, health=INITIAL_HEALTH,
+    def __init__(self, pos, dir=INITIAL_DIR, state=INITIAL_STATE, health=INITIAL_HEALTH,
                  bullet=INITIAL_BULLET):
         self._pos = pos
         self._dir = dir
@@ -31,7 +31,7 @@ class Robot:
         """
         reset the robot
         """
-        self._pos = INITIAL_POSITION
+        self._pos = None  # TODO
         self._dir = INITIAL_DIR
         self._state = INITIAL_STATE
         self._health = INITIAL_HEALTH
