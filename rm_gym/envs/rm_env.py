@@ -57,7 +57,7 @@ class RoboMasterEnv(gym.Env):
         """
         Renders the environment.
         """
-        pass
+        self.map_view.update()
 
 
 if __name__ == '__main__':
