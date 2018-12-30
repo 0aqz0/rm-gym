@@ -169,8 +169,8 @@ class Map(object):
         theta = math.atan2(y2-y1, x2-x1)
         length = math.sqrt((x1-x2)**2+(y1-y2)**2)
         for i in range(int(length/step)):
-            new_x = x1+step*i*math.cos(theta)
-            new_y = y1+step*i*math.sin(theta)
+            new_x = int(x1+step*i*math.cos(theta))
+            new_y = int(y1+step*i*math.sin(theta))
             if self.has_collision(new_x, new_y):
                 return True
         return False
