@@ -4,6 +4,7 @@ RoboMaster AI Challenge Simulation Environment.
 """
 import gym
 from rm_gym.envs.map_view_2d import MapView2D
+from rm_gym.envs.map import Map
 import time
 
 
@@ -11,13 +12,13 @@ class RoboMasterEnv(gym.Env):
     """
     The RoboMaster Simulation Class.
     """
-
-    action_space = ["U", "D", "L", "R"]
+    action_space = ["W", "E", "N", "S"]
     observation_space = None
 
     def __init__(self):
         self.map_view = MapView2D()
         self.state = None
+        self.map = Map()
 
     def step(self, action):
         """
@@ -30,14 +31,15 @@ class RoboMasterEnv(gym.Env):
             done (boolean): whether the episode has ended, in which case further step() calls will return undefined results
             info (dict): contains auxiliary diagnostic information (helpful for debugging, and sometimes learning)
         """
-        if action == 'R':
-            self.map_view.update([100,30])
-        elif action == 'D':
-            self.map_view.update([30,100])
-        elif action == 'L':
-            self.map_view.update([100,100])
+        if action == 'W':
+            self.map_view.move_robot([50, 50])
+        elif action == 'E':
+            self.map_view.move_robot([100, 50])
+        elif action == 'N':
+            self.map_view.move_robot([50, 100])
         else:
-            self.map_view.update()
+            self.map_view.move_robot([100, 100])
+
         done = False
         reward = 0
         info = {}
@@ -55,7 +57,7 @@ class RoboMasterEnv(gym.Env):
         """
         Renders the environment.
         """
-        return self.map_view.update()
+        pass
 
 
 if __name__ == '__main__':
