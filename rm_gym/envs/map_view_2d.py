@@ -10,7 +10,7 @@ class MapView2D:
     """
     The Map View Class.
     """
-    def __init__(self, map_name="RoboMaster Simulation"):
+    def __init__(self, map_name="RoboMaster Simulation", robot1Pos=[50,50], robot2Pos=[750,50], robot3Pos=[50,450], robot4Pos=[750,450]):
         pygame.init()
         pygame.display.set_caption(map_name)
         self.clock = pygame.time.Clock()
@@ -22,24 +22,35 @@ class MapView2D:
         self.robot2 = pygame.image.load(robot_image_filename).convert_alpha()
         self.robot3 = pygame.image.load(robot_image_filename).convert_alpha()
         self.robot4 = pygame.image.load(robot_image_filename).convert_alpha()
-        # if __name__ == '__main__':     # weird
-        #     while True:
-        #         for event in pygame.event.get():
-        #             if event.type == QUIT:
-        #                 exit()
-        #         self.update()
+        # initialize the position of robots
+        self.robot1Pos = robot1Pos
+        self.robot2Pos = robot2Pos
+        self.robot3Pos = robot3Pos
+        self.robot4Pos = robot4Pos
 
-    def update(self, robot1Pos, robot2Pos, robot3Pos, robot4Pos):
+    def move_robot(self, robot1Pos=None, robot2Pos=None, robot3Pos=None, robot4Pos=None):
+        """
+        move robots in the GUI
+        :return:
+        """
         for event in pygame.event.get():
             if event.type == QUIT:
                 exit()
         # 绘制背景
         self.screen.blit(self.background, (0, 0))
         # 绘制小车
-        self.screen.blit(pygame.transform.rotate(self.robot1, 0), [robot1Pos[0]-IMAGE_OFFSET, robot1Pos[1]-IMAGE_OFFSET])
-        self.screen.blit(pygame.transform.rotate(self.robot2, 0), [robot2Pos[0]-IMAGE_OFFSET, robot2Pos[1]-IMAGE_OFFSET])
-        self.screen.blit(pygame.transform.rotate(self.robot3, 0), [robot3Pos[0]-IMAGE_OFFSET, robot3Pos[1]-IMAGE_OFFSET])
-        self.screen.blit(pygame.transform.rotate(self.robot4, 0), [robot4Pos[0]-IMAGE_OFFSET, robot4Pos[1]-IMAGE_OFFSET])
+        if robot1Pos is not None:
+            self.robot1Pos = robot1Pos
+        self.screen.blit(pygame.transform.rotate(self.robot1, 0), [self.robot1Pos[0]-IMAGE_OFFSET, self.robot1Pos[1]-IMAGE_OFFSET])
+        if robot2Pos is not None:
+            self.robot2Pos = robot2Pos
+        self.screen.blit(pygame.transform.rotate(self.robot2, 0), [self.robot2Pos[0]-IMAGE_OFFSET, self.robot2Pos[1]-IMAGE_OFFSET])
+        if robot3Pos is not None:
+            self.robot3Pos = robot3Pos
+        self.screen.blit(pygame.transform.rotate(self.robot3, 0), [self.robot3Pos[0]-IMAGE_OFFSET, self.robot3Pos[1]-IMAGE_OFFSET])
+        if robot4Pos is not None:
+            self.robot4Pos = robot4Pos
+        self.screen.blit(pygame.transform.rotate(self.robot4, 0), [self.robot4Pos[0]-IMAGE_OFFSET, self.robot4Pos[1]-IMAGE_OFFSET])
         # 刷新画面
         pygame.display.update()
 
