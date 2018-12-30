@@ -5,7 +5,13 @@ RoboMaster AI Challenge Simulation Environment.
 import gym
 from rm_gym.envs.map_view_2d import MapView2D
 from rm_gym.envs.map import Map
+from rm_gym.envs.robot import Robot
 import time
+
+ROBOT1_INITIAL_POS = [50,50]
+ROBOT2_INITIAL_POS = [750,50]
+ROBOT3_INITIAL_POS = [50,450]
+ROBOT4_INITIAL_POS = [750,450]
 
 
 class RoboMasterEnv(gym.Env):
@@ -19,31 +25,36 @@ class RoboMasterEnv(gym.Env):
         self.map_view = MapView2D()
         self.state = None
         self.map = Map()
+        self.robot = [Robot(pos=ROBOT1_INITIAL_POS), Robot(ROBOT2_INITIAL_POS),
+                      Robot(ROBOT3_INITIAL_POS), Robot(ROBOT4_INITIAL_POS)]
+        print(self.robot[0].pos)
 
-    def step(self, action):
+    def step(self, action, robotNum):
         """
         Accepts an action and returns a tuple (observation, reward, done, info).
-        Args:
-            action (object): an action provided by the environment
-        Returns:
-            observation (object): agent's observation of the current environment
-            reward (float) : amount of reward returned after previous action
-            done (boolean): whether the episode has ended, in which case further step() calls will return undefined results
-            info (dict): contains auxiliary diagnostic information (helpful for debugging, and sometimes learning)
         """
-        if action == 'W':
-            self.map_view.move_robot([50, 50])
-        elif action == 'E':
-            self.map_view.move_robot([100, 50])
-        elif action == 'N':
-            self.map_view.move_robot([50, 100])
+        # define action as a four-dimension array [delta_x, delta_y, shoot, shoot_dir]
+        # position
+        print(robotNum)
+        new_x = self.robot[robotNum].pos[0] + action[0]
+        new_y = self.robot[robotNum].pos[1] + action[1]
+        print(self.robot[robotNum].pos[0])
+        # print(action[0])
+        # print(new_x)
+        if self.map.has_collision(new_x, new_y):
+            observation = 'collision'
+            reward = 0
+            done = False
+            info = {}
+            return observation, reward, done, info
         else:
-            self.map_view.move_robot([100, 100])
-
-        done = False
-        reward = 0
-        info = {}
-        return self.state, reward, done, info
+            self.robot[robotNum].pos[0] = new_x
+            self.robot[robotNum].pos[1] = new_y
+            self.map_view.move_robot(robot1Pos=[new_x, new_y])
+            done = False
+            reward = 0
+            info = {}
+            return self.robot, reward, done, info
 
     def reset(self):
         """
@@ -51,13 +62,18 @@ class RoboMasterEnv(gym.Env):
         Returns: observation (object): the initial observation of the
             space.
         """
-        pass
+        self.map_view.reset_robot()
+        # for robot in self.robot:
+        #     robot.reset()           # NEED TEST!!!
+        return self.robot
 
-    def render(self, mode='human'):
+    def render(self, mode='human', close=False):
         """
         Renders the environment.
         """
-        self.map_view.update()
+        if close:
+            self.map_view.quit_game()
+        return self.map_view.update()
 
 
 if __name__ == '__main__':
@@ -66,5 +82,5 @@ if __name__ == '__main__':
     while True:
         for i in range(4):
             env.render()
-            env.step(env.action_space[i])
+            env.step([20,0,0,0], 0)
             time.sleep(1)
