@@ -36,6 +36,7 @@ class RoboMasterEnv(gym.Env):
         """
         # define action as a four-dimension array [delta_x, delta_y, shoot, shoot_dir]
         # position
+        robotx = self.robot[robotNum]
         delta_x = action[0]
         delta_y = action[1]
         shoot = action[2]
@@ -50,18 +51,18 @@ class RoboMasterEnv(gym.Env):
             info = {}
             return observation, reward, done, info
         else:
-            self.robot[robotNum].pos[0] = new_x
-            self.robot[robotNum].pos[1] = new_y
+            robotx.pos[0] = new_x
+            robotx.pos[1] = new_y
             self.map_view.move_robot([new_x, new_y], robotNum)
             done = False
             reward = 0
             info = {}
             if shoot:
                 for robot in self.robot:
-                    if robot != self.robot[robotNum]:
-                        angle = math.atan2(robot.pos[1]-self.robot[robotNum].pos[1],
-                                           robot.pos[0] - self.robot[robotNum].pos[0])
-                        if abs(angle - shoot_dir) < 0.1:
+                    if robot != robotx:
+                        angle = math.atan2(robot.pos[1]-robotx.pos[1],
+                                           robot.pos[0] - robotx.pos[0])
+                        if abs(angle - shoot_dir) < 0.1 and not self.map.has_collision(robot.pos, robotx.pos):
                             robot.health -= 1
                             reward = 1
             return self.robot, reward, done, info
