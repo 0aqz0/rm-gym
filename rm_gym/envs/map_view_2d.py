@@ -44,6 +44,23 @@ class MapView2D:
             self.robot4Pos = robot4Pos
         self.update()
 
+    def move_robot(self, newPos, robotNum):
+        """
+        move robots in the GUI
+        :return:
+        """
+        if robotNum == 0:
+            self.robot1Pos = newPos
+        elif robotNum == 1:
+            self.robot2Pos = newPos
+        elif robotNum == 2:
+            self.robot3Pos = newPos
+        elif robotNum == 3:
+            self.robot4Pos = newPos
+        else:
+            print("robotNum is not valid.")
+        self.update()
+
     def quit_game(self):
         pygame.display.quit()
         pygame.quit()

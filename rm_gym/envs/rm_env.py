@@ -34,8 +34,12 @@ class RoboMasterEnv(gym.Env):
         """
         # define action as a four-dimension array [delta_x, delta_y, shoot, shoot_dir]
         # position
-        new_x = self.robot[robotNum].pos[0] + action[0]
-        new_y = self.robot[robotNum].pos[1] + action[1]
+        delta_x = action[0]
+        delta_y = action[1]
+        shoot = action[2]
+        shoot_dir = action[3]
+        new_x = self.robot[robotNum].pos[0] + delta_x
+        new_y = self.robot[robotNum].pos[1] + delta_y
 
         if self.map.has_collision(new_x, new_y):
             observation = 'collision'
@@ -46,10 +50,12 @@ class RoboMasterEnv(gym.Env):
         else:
             self.robot[robotNum].pos[0] = new_x
             self.robot[robotNum].pos[1] = new_y
-            self.map_view.move_robot(robot1Pos=[new_x, new_y])
+            self.map_view.move_robot([new_x, new_y], robotNum)
             done = False
             reward = 0
             info = {}
+            if shoot:
+                pass
             return self.robot, reward, done, info
 
     def reset(self):
