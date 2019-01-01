@@ -63,8 +63,8 @@ class RoboMasterEnv(gym.Env):
             space.
         """
         self.map_view.reset_robot()
-        # for robot in self.robot:
-        #     robot.reset()           # NEED TEST!!!
+        for robot in self.robot:
+            robot.reset()           # NEED TEST!!!
         return self.robot
 
     def render(self, mode='human', close=False):
