@@ -7,6 +7,7 @@ from rm_gym.envs.map_view_2d import MapView2D
 from rm_gym.envs.map import Map
 from rm_gym.envs.robot import Robot
 import time
+import math
 
 ROBOT1_INITIAL_POS = [50,50]
 ROBOT2_INITIAL_POS = [750,50]
@@ -22,7 +23,8 @@ class RoboMasterEnv(gym.Env):
     observation_space = None
 
     def __init__(self):
-        self.map_view = MapView2D()
+        self.map_view = MapView2D(robot1Pos=ROBOT1_INITIAL_POS, robot2Pos=ROBOT2_INITIAL_POS,
+                                  robot3Pos=ROBOT3_INITIAL_POS, robot4Pos=ROBOT4_INITIAL_POS)
         self.state = None
         self.map = Map()
         self.robot = [Robot(pos=ROBOT1_INITIAL_POS), Robot(ROBOT2_INITIAL_POS),
@@ -55,7 +57,13 @@ class RoboMasterEnv(gym.Env):
             reward = 0
             info = {}
             if shoot:
-                pass
+                for robot in self.robot:
+                    if robot != self.robot[robotNum]:
+                        angle = math.atan2(robot.pos[1]-self.robot[robotNum].pos[1],
+                                           robot.pos[0] - self.robot[robotNum].pos[0])
+                        if abs(angle - shoot_dir) < 0.1:
+                            robot.health -= 1
+                            reward = 1
             return self.robot, reward, done, info
 
     def reset(self):
