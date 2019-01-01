@@ -65,13 +65,19 @@ class MapView2D:
         # 绘制背景
         self.screen.blit(self.background, (0, 0))
         # 绘制小车
-        self.screen.blit(pygame.transform.rotate(self.robot1, 0), [self.robot1Pos[0]-IMAGE_OFFSET, self.robot1Pos[1]-IMAGE_OFFSET])
-        self.screen.blit(pygame.transform.rotate(self.robot2, 0), [self.robot2Pos[0]-IMAGE_OFFSET, self.robot2Pos[1]-IMAGE_OFFSET])
-        self.screen.blit(pygame.transform.rotate(self.robot3, 0), [self.robot3Pos[0]-IMAGE_OFFSET, self.robot3Pos[1]-IMAGE_OFFSET])
-        self.screen.blit(pygame.transform.rotate(self.robot4, 0), [self.robot4Pos[0]-IMAGE_OFFSET, self.robot4Pos[1]-IMAGE_OFFSET])
+        self.screen.blit(pygame.transform.rotate(self.robot1, 0), self.to_pygame([self.robot1Pos[0]-IMAGE_OFFSET, self.robot1Pos[1]+IMAGE_OFFSET]))
+        self.screen.blit(pygame.transform.rotate(self.robot2, 0), self.to_pygame([self.robot2Pos[0]-IMAGE_OFFSET, self.robot2Pos[1]+IMAGE_OFFSET]))
+        self.screen.blit(pygame.transform.rotate(self.robot3, 0), self.to_pygame([self.robot3Pos[0]-IMAGE_OFFSET, self.robot3Pos[1]+IMAGE_OFFSET]))
+        self.screen.blit(pygame.transform.rotate(self.robot4, 0), self.to_pygame([self.robot4Pos[0]-IMAGE_OFFSET, self.robot4Pos[1]+IMAGE_OFFSET]))
         # 刷新画面
         pygame.display.update()
 
+    def to_pygame(self, coords):
+        """
+        coordinates conversion
+        :return:
+        """
+        return [coords[0], MAP_SIZE[1]-coords[1]]
 
 
 if __name__ == '__main__':

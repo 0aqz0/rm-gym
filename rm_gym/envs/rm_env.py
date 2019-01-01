@@ -27,7 +27,6 @@ class RoboMasterEnv(gym.Env):
         self.map = Map()
         self.robot = [Robot(pos=ROBOT1_INITIAL_POS), Robot(ROBOT2_INITIAL_POS),
                       Robot(ROBOT3_INITIAL_POS), Robot(ROBOT4_INITIAL_POS)]
-        print(self.robot[0].pos)
 
     def step(self, action, robotNum):
         """
@@ -35,12 +34,9 @@ class RoboMasterEnv(gym.Env):
         """
         # define action as a four-dimension array [delta_x, delta_y, shoot, shoot_dir]
         # position
-        print(robotNum)
         new_x = self.robot[robotNum].pos[0] + action[0]
         new_y = self.robot[robotNum].pos[1] + action[1]
-        print(self.robot[robotNum].pos[0])
-        # print(action[0])
-        # print(new_x)
+
         if self.map.has_collision(new_x, new_y):
             observation = 'collision'
             reward = 0
@@ -64,7 +60,7 @@ class RoboMasterEnv(gym.Env):
         """
         self.map_view.reset_robot()
         for robot in self.robot:
-            robot.reset()           # NEED TEST!!!
+            robot.reset()
         return self.robot
 
     def render(self, mode='human', close=False):
