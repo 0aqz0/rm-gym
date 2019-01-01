@@ -20,6 +20,7 @@ class Robot:
     def __init__(self, pos, dir=INITIAL_DIR, state=INITIAL_STATE, health=INITIAL_HEALTH,
                  bullet=INITIAL_BULLET):
         self._pos = pos
+        self._init_pos = pos
         self._dir = dir
         self._state = state
         self._health = health
@@ -31,7 +32,7 @@ class Robot:
         """
         reset the robot
         """
-        self._pos = None  # TODO
+        self._pos = self._init_pos
         self._dir = INITIAL_DIR
         self._state = INITIAL_STATE
         self._health = INITIAL_HEALTH
