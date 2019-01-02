@@ -34,4 +34,4 @@ pip install -e .
 - add more funcs in class map
 - ~~map2pygame coordinates need conversion~~ 
 - ~~improve the step func~~
-- finish a astar path planning example
+- ~~finish a astar path planning example~~
