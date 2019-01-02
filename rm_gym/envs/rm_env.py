@@ -45,11 +45,9 @@ class RoboMasterEnv(gym.Env):
         new_y = self.robot[robotNum].pos[1] + delta_y
 
         if self.map.has_collision(new_x, new_y):
-            observation = 'collision'
             reward = 0
             done = False
             info = {}
-            return observation, reward, done, info
         else:
             robotx.pos[0] = new_x
             robotx.pos[1] = new_y
@@ -65,7 +63,8 @@ class RoboMasterEnv(gym.Env):
                         if abs(angle - shoot_dir) < 0.1 and not self.map.has_collision(robot.pos, robotx.pos):
                             robot.health -= 1
                             reward = 1
-            return self.robot, reward, done, info
+
+        return self.robot, reward, done, info
 
     def reset(self):
         """
@@ -94,4 +93,7 @@ if __name__ == '__main__':
         for i in range(4):
             env.render()
             env.step([20,0,0,0], 0)
-            time.sleep(1)
+            env.step([-20, 0, 0, 0], 1)
+            env.step([20, 0, 0, 0], 2)
+            env.step([-20, 0, 0, 0], 3)
+            time.sleep(0.1)
