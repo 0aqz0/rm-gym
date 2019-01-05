@@ -2,6 +2,8 @@
 
 RoboMaster AI Challenge Simulation Environment based on [OpenAI gym](https://github.com/openai/gym)
 
+## Environment
+
 ### Action Space
 
 a four-dimension array [delta_x, delta_y, shoot, shoot_dir]
@@ -28,10 +30,11 @@ pip install gym
 pip install -e .
 ```
 
-## TODO
+## Usage
 
-- add bars in the GUI
-- add more funcs in class map
-- ~~map2pygame coordinates need conversion~~ 
-- ~~improve the step func~~
-- ~~finish a astar path planning example~~
+```python
+import gym
+import rm_gym
+
+env = gym.make("RoboMaster-v0")
+```
