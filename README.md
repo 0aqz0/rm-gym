@@ -38,3 +38,5 @@ import rm_gym
 
 env = gym.make("RoboMaster-v0")
 ```
+
+An example can be found [here](https://github.com/0aqz0/gym-examples/tree/master/rmSim).
